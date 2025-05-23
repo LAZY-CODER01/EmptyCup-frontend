@@ -56,12 +56,12 @@ dispatch(toggleShortlist );
 
 </div>
 
-<img src="public/images/line.png" alt="" />
+<img src="/images/line.png" alt="" />
 
 <div className=" px-4 flex flex-col items-center justify-center space-y-4 ">
 
 <div className="flex flex-col items-center  space-y-2">
-    <img src="public/images/details.png" className="lg:h-[31px]
+    <img src="/images/details.png" className="lg:h-[31px]
     h-[20px]
     active:scale-105
 
@@ -107,7 +107,7 @@ strokeWidth="1"
 
 
 <div className="flex flex-col items-center justify-center space-y-2">
-    <img src="public/images/report.png" 
+    <img src="/images/report.png" 
     className="lg:h-[20px]
     h-[20px]
     active:scale-105

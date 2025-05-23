@@ -16,7 +16,7 @@ export default function Stars({stars}){
         
 (e,indx)=>(
     <div key={indx}>
-<img src="/public/images/fullstar.png" className="w-4" alt="" />
+<img src="//images/fullstar.png" className="w-4" alt="" />
     </div>
 )
          )}
@@ -27,7 +27,7 @@ export default function Stars({stars}){
         
 (e,indx)=>(
     <div key={indx}>
-<img src="/public/images/halfstar.png" className="w-4"  alt="" />
+<img src="//images/halfstar.png" className="w-4"  alt="" />
     </div>
 )
          )}
@@ -37,7 +37,7 @@ export default function Stars({stars}){
         
 (e,indx)=>(
     <div key={indx}>
-<img src="/public/images/emptystar.png" className="w-4"  alt="" />
+<img src="//images/emptystar.png" className="w-4"  alt="" />
     </div>
 )
          )}

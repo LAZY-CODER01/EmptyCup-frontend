@@ -21,7 +21,7 @@ return (
 
 <div className="w-full md:justify-evenly  justify-around px-2 mt-4 flex flex-row">
 
-<img src="public/images/logo.png" className="h-[32px]" alt="" />
+<img src="/images/logo.png" className="h-[32px]" alt="" />
 <p className="text-[#716966] font-bold  text-2xl ">EmptyCup</p>
 
 <div className="flex justify-center  items-center">
@@ -52,7 +52,7 @@ return (
 <div className=" flex items-center self-start space-x-4 ">
 
 <div className="flex flex-col items-center  space-y-2">
-    <img src="public/images/Contact.png" className="
+    <img src="/images/Contact.png" className="
     h-[20px]
     active:scale-105
 
@@ -62,7 +62,7 @@ return (
 
 
 <div className="flex flex-col items-center  space-y-2">
-<img src="public/images/Gallery.png"  
+<img src="/images/Gallery.png"  
 className="
     h-[20px]
     active:scale-105
@@ -73,7 +73,7 @@ alt="" />
 </div>
 
 <div className="flex flex-col items-center  space-y-2">
-    <img src="public/images/Map.png" 
+    <img src="/images/Map.png" 
     className="
     h-[20px]
     active:scale-105
@@ -133,7 +133,7 @@ alt="" />
 </div>
 
 <div className="flex flex-col items-center   space-y-2">
-<img src="public/images/Sort.png" 
+<img src="/images/Sort.png" 
 className="
 active:scale-105
     h-[20px]
