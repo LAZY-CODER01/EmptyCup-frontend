@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;@font-face {
+    font-family: 'Lemon Milk';
+    src: url('./src/assets/fonts/LemonMilk-Regular.ttf') format('truetype');
+  }
+
+
+@layer utilities {
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom scrollbar styling */
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #f3f3f3; /* Light gray background */
+    border-radius: 10px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #ba7894; /* Your theme color */
+    border-radius: 10px;
+    transition: background 0.3s;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #a66d85; /* Darker on hover */
+  }
+}
