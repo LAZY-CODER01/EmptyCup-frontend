@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleshortlistmain } from "../features/shorlisteditems/shortlisteditemsslice";
 import Stars from "./stars";
 import { toggleShortlist } from "../features/shortlist/shortlistslice";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
-export function DesignerCard({ designer, index }) {
+export function DesignerCard({ designer, index, onShortlistUpdate }) {
   const [localShortlist, setLocalShortlist] = useState(designer.actions.shortlist);
   const dispatch = useDispatch();
   
@@ -36,6 +36,11 @@ export function DesignerCard({ designer, index }) {
 
       const updatedProduct = await response.json();
       dispatch(toggleshortlistmain(updatedProduct));
+      
+      // Update parent component
+      if (onShortlistUpdate) {
+        onShortlistUpdate(updatedProduct);
+      }
       
     } catch (error) {
       console.error('Error toggling shortlist:', error);

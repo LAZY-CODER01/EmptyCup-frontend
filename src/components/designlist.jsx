@@ -1,14 +1,23 @@
 import { useSelector } from "react-redux";
 import { DesignerCard } from "./designcard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function DesignList() {
   const [designers, setDesigners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Add shortlistItem to dependencies
   const shortlistItems = useSelector(state => state.shortlistitem.items);
+  const isShortlistActive = useSelector((state) => state.shortlist);
+  const issorted = useSelector((state) => state.sortorder);
+
+  const handleShortlistUpdate = useCallback((updatedProduct) => {
+    setDesigners(prevDesigners => 
+      prevDesigners.map(designer => 
+        designer.id === updatedProduct.id ? updatedProduct : designer
+      )
+    );
+  }, []);
 
   const fetchDesigners = async () => {
     try {
@@ -28,9 +37,6 @@ export default function DesignList() {
   useEffect(() => {
     fetchDesigners();
   }, [shortlistItems]); // Re-fetch when shortlist items change
-
-  const isShortlistActive = useSelector((state) => state.shortlist);
-  const issorted = useSelector((state) => state.sortorder);
 
   // Filter designers based on shortlist status
   let designersToRender = isShortlistActive 
@@ -65,7 +71,8 @@ export default function DesignList() {
         <DesignerCard 
           key={designer.id} 
           designer={designer} 
-          index={idx} 
+          index={idx}
+          onShortlistUpdate={handleShortlistUpdate}
         />
       ))}
     </div>
