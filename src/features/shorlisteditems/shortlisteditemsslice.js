@@ -1,4 +1,4 @@
-import { createSlice ,} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState={
@@ -9,7 +9,7 @@ const initialState={
 
 const ShortlistitemSlice =createSlice(
 {
-    name:"shortlisteditems",
+    name:"shortlistitem",
 initialState,
 reducers:{
 
@@ -19,18 +19,13 @@ reducers:{
 
 toggleshortlistmain :(state,action)=>{
 
-    const product=action.payload;
-const exist=state.items.find(item=>item.id==product.id)
-if(exist){
-    state.items=state.items.filter(item=>item.id!==product.id)
+    const index = state.items.findIndex(item => item.id === action.payload.id);
+      if (index === -1 && action.payload.actions.shortlist) {
+        state.items.push(action.payload);
+      } else if (index !== -1 && !action.payload.actions.shortlist) {
+        state.items.splice(index, 1);
+      }
 }
-else{
-    state.items.push(product)
-}
-
-}
-
-
 
 }
 

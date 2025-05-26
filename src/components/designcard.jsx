@@ -1,25 +1,51 @@
-
-
 /* eslint-disable react/prop-types */
 
-import { useSelector,useDispatch } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 import { toggleshortlistmain } from "../features/shorlisteditems/shortlisteditemsslice";
-import { toggleShortlist } from "../features/shortlist/shortlistslice";
 import Stars from "./stars";
-export function DesignerCard({designer,index}){
+import { toggleShortlist } from "../features/shortlist/shortlistslice";
+import { useState } from "react";
 
+export function DesignerCard({ designer, index }) {
+  const [localShortlist, setLocalShortlist] = useState(designer.actions.shortlist);
+  const dispatch = useDispatch();
+  
+  const handleshortlist = async (e) => {
+    // Prevent event bubbling
+    e.stopPropagation();
+    
+    try {
+      // Update local state immediately
+      setLocalShortlist(!localShortlist);
+      
+      const response = await fetch(`https://empty-cup-server-axqb.vercel.app/api/products/${designer.id}/toggle-shortlist`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          shortlist: !designer.actions.shortlist
+        })
+      });
 
+      if (!response.ok) {
+        // Revert local state if request fails
+        setLocalShortlist(designer.actions.shortlist);
+        throw new Error('Failed to toggle shortlist');
+      }
 
-const found = Boolean(useSelector(state=>state.shortlistitem.items.find(item=>item.id==designer.id)))
+      const updatedProduct = await response.json();
+      dispatch(toggleshortlistmain(updatedProduct));
+      
+    } catch (error) {
+      console.error('Error toggling shortlist:', error);
+    }
+  };
 
-const dispatch=useDispatch();
-const handleshortlist =()=>{
-
-  dispatch(toggleshortlistmain(designer));
-dispatch(toggleShortlist );
-}
-
+  const isShortlistActive = useSelector((state) => state.shortlist);
+  const handleOpenShortlist = () => {
+    dispatch(toggleShortlist());
+  };
 
     return (
 <div className={`py-8 md:px-4  ${index%2==0?'bg-[#FFFCF2]':'bg-[#fff]'} font-chivo   md:space-x-8 flex w-full `}  >
@@ -90,18 +116,21 @@ dispatch(toggleShortlist );
 </div>
 
 <div className="flex flex-col items-center  space-y-2">
-<svg width="18" height="21" 
-className="active:scale-105"
-onClick={handleshortlist }
-viewBox="0 0 18 21"  xmlns="http://www.w3.org/2000/svg">
-<path d="M1.92436e-07 20.3438C-9.11286e-05 20.4577 0.0323215 20.5697 0.0940478 20.6688C0.155774 20.7678 0.244686 20.8505 0.352032 20.9086C0.459377 20.9668 0.581456 20.9984 0.706251 21.0004C0.831046 21.0024 0.954255 20.9746 1.06375 20.9199L8.625 17.1531L16.1863 20.9199C16.2957 20.9746 16.419 21.0024 16.5437 21.0004C16.6685 20.9984 16.7906 20.9668 16.898 20.9086C17.0053 20.8505 17.0942 20.7678 17.156 20.6688C17.2177 20.5697 17.2501 20.4577 17.25 20.3438V2.625C17.25 1.92881 16.9471 1.26113 16.4079 0.768845C15.8688 0.276562 15.1375 0 14.375 0L2.875 0C2.1125 0 1.38124 0.276562 0.842068 0.768845C0.302901 1.26113 1.92436e-07 1.92881 1.92436e-07 2.625V20.3438ZM8.625 5.78813C10.6188 3.91781 15.6026 7.1925 8.625 11.4017C1.64738 7.1925 6.63119 3.91913 8.625 5.79075V5.78813Z"
-
-stroke="#8D4337"
-strokeWidth="1"
- fill= { found?"#8D4337":"none"}/>
-</svg>
-
-    <p className=" md:text-sm text-[10px] text-center ">Shortlist</p>
+  <svg width="18" height="21" 
+    className="active:scale-105 cursor-pointer"
+    onClick={handleshortlist}
+    viewBox="0 0 18 21"  
+    xmlns="http://www.w3.org/2000/svg">
+    <path 
+      d="M1.92436e-07 20.3438C-9.11286e-05 20.4577 0.0323215 20.5697 0.0940478 20.6688C0.155774 20.7678 0.244686 20.8505 0.352032 20.9086C0.459377 20.9668 0.581456 20.9984 0.706251 21.0004C0.831046 21.0024 0.954255 20.9746 1.06375 20.9199L8.625 17.1531L16.1863 20.9199C16.2957 20.9746 16.419 21.0024 16.5437 21.0004C16.6685 20.9984 16.7906 20.9668 16.898 20.9086C17.0053 20.8505 17.0942 20.7678 17.156 20.6688C17.2177 20.5697 17.2501 20.4577 17.25 20.3438V2.625C17.25 1.92881 16.9471 1.26113 16.4079 0.768845C15.8688 0.276562 15.1375 0 14.375 0L2.875 0C2.1125 0 1.38124 0.276562 0.842068 0.768845C0.302901 1.26113 1.92436e-07 1.92881 1.92436e-07 2.625V20.3438ZM8.625 5.78813C10.6188 3.91781 15.6026 7.1925 8.625 11.4017C1.64738 7.1925 6.63119 3.91913 8.625 5.79075V5.78813Z"
+      stroke="#8D4337"
+      strokeWidth="1"
+      fill={localShortlist ? "#8D4337" : "none"}
+    />
+  </svg>
+  <p className={`md:text-sm text-[10px] text-center ${localShortlist ? "text-[#8D4337] font-semibold" : ""}`}>
+    Shortlist
+  </p>
 </div>
 
 
@@ -117,6 +146,13 @@ strokeWidth="1"
 
     <p className=" md:text-sm text-[10px] text-center ">Report</p>
 </div>
+
+<button 
+      onClick={handleOpenShortlist}
+      className="px-4 py-2 text-sm bg-[#8D4337] text-white rounded-md hover:bg-[#7d3c31]"
+    >
+      {isShortlistActive ? 'Back to All' : 'View Shortlist'}
+    </button>
 
 
 
